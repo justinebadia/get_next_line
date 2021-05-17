@@ -72,3 +72,33 @@ char	*ft_strdup (const char *s1)
 	copy[i] = '\0';
 	return (copy);
 }
+
+char	*ft_strjoin(char const *s1, char const *s2)
+{
+	int		total_len;
+	char	*join;
+	int		i;
+	int		j;
+
+	total_len = ft_strlen(s1) + ft_strlen(s2);
+	join = NULL;
+	i = 0;
+	j = 0;
+	join = (char *)malloc(sizeof(char) * (total_len + 1));
+	if (join == NULL)
+		return (NULL);
+	while (s1[i] != '\0')
+	{
+		join[i] = s1[i];
+		i++;
+	}
+	while (s2[j] != '\0')
+	{
+		join[i] = s2[j];
+		i++;
+		j++;
+	}
+	join[i] = '\0';
+	free(s1);
+	return (join);
+}

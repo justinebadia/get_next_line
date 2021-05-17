@@ -15,7 +15,48 @@
 #include <fcntl.h>
 #include <stdio.h>
 
-// save line permets de lire jusqu'au \n puis de passer à la ligne suivante : ligne par ligne
+static int  ft_check_eol(char *s)
+{
+    int i;
+    while (s[i] != '\n')
+    {
+        if(s[i] == '\n')
+            return (i);
+        i++;
+    }
+    return (-1);
+}
+
+static int  ft_save_line(char **line, char **buffer)
+{
+    char    *temp;
+    char    *temp_join_line;
+    char    *temp_buff;
+    int     len;
+
+    len = ft_check_eol(*buffer);
+    if (len >= 0) // ca veut dire que j'ai rencontré un \n dans mon buffer
+    {
+        temp = ft_substr(buffer, 0, len - 1); // je copie la premiere ligne dans temp sans le \n
+        temp_join_line = *line; // je save la valeur actuelle de line dans temp_
+        *line = ft_strjoin(*line, temp); // je join la phrase précédente à la nouvelle phrase qui est dans temp
+        temp_buff = ft_strdup(buffer[len + 1]);
+        buffer = &temp_buff; //je donne à buffer une chaine dupliquée sans la ligne qu,on vient d,enregistrer dans line
+        free(temp);
+        free(temp_join_line);
+        free(temp_buff);
+        return (1); // je suis arrivée en fin de ligne
+    }
+    else // pas de \n dans mon buffer
+    {
+        temp = NULL;
+        temp = *line;
+        *line = ft_strjoin(*line, *buffer);
+        free (temp);
+    }
+}
+
+//save line permets de lire jusqu'au \n puis de passer à la ligne suivante : ligne par ligne
 static int  ft_save_line(char **s, char **line)
 {
     char *temp;
@@ -42,27 +83,30 @@ static int  ft_save_line(char **s, char **line)
 
 int     get_next_line(int fd, char **line)
 {
-    static char *buff;
-    char        **s;
-    int         ret_read;
+    char                *buff;
+    static char        **str;
+    int             ret_read;
     
     buff = NULL;
     line = NULL;
-    // if (fd < 0 || BUFFER_SIZE <= 0 || !line)
-    //     return (-1);
+    if (fd < 0 || BUFFER_SIZE <= 0 || !line)
+        return (-1);
     buff = (char *)malloc(sizeof (char) * BUFFER_SIZE + 1);
     if (buff == NULL)
         return (-1);
     ret_read = read (fd, buff, BUFFER_SIZE);
-    ft_putstr(buff);
+    if (ret_read == -1)
+        return (-1);
     buff[ret_read] = '\0';
-    //tant que mon ret read est supérieur à 0, donc que j'ai des bytes à copier, 
-    if (ret_read > 0)
-    {
-        ft_save_line(&s[fd], *line); //j'appelle ft_save en disant ft_save(s[fd], *line) donc la premiere ligne est enregistré dans line
-                                    //et en sortie mon s[fd] est positioné sur la ligne suivante, je lui donne la position de temp
-    }
 
+   while ()// tant que je ne suis pas à la fin de mon fichier et tant que je ne suis pas à la fin de ma ligne, j'enregistre mon buff dans la line, ligne par ligne (créer une fonction)
+   {
+       //lire le fichier
+        //je fais un strjoin tant que je n'atteint pas un \n ou \0    
+   }
+    
+    if (ret_read == 0)
+        return (0);
     // puis je fais un join pour lier les chaines, je le stocke dans s
 }
 
