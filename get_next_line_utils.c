@@ -1,21 +1,5 @@
 #include "get_next_line.h"
 
-void    ft_putchar(char c)
-{
-    write(1, &c, 1);
-}
-
-void	ft_putstr(char *str)
-{
-	int	i;
-
-	i = 0;
-	while (str[i] != '\0')
-	{
-		write (1, &str[i], 1);
-		i++;
-	}
-}
 
 char	*ft_substr(char const *s, unsigned int start, size_t len)
 {
@@ -99,6 +83,22 @@ char	*ft_strjoin(char const *s1, char const *s2)
 		j++;
 	}
 	join[i] = '\0';
-	free(s1);
+	free((void *)s1);
 	return (join);
+}
+
+char	*ft_strchr(const char *str, int c)
+{
+	int	i;
+
+	i = 0;
+	while (str[i] != '\0')
+	{
+		if (str[i] == c)
+			return ((char *)&str[i]);
+		i++;
+	}
+	if (c == '\0')
+		return ((char *)&str[i]);
+	return (NULL);
 }
