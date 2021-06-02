@@ -1,4 +1,5 @@
 #include "get_next_line.h"
+#include <stdio.h>
 
 
 int ft_ret_read(int fd, char *buff, int buff_size, int *bytes)
@@ -54,14 +55,24 @@ char    *ft_save_in_str(char *buff, char *str)
 
 int ft_check_errors(int fd, char **buff, char **line)
 {
+   
+    
     if (fd < 0 || BUFFER_SIZE <= 0 || !line)
+    {
+    printf("FD :%p\n", &fd);
+    printf("buff :%p\n", buff);
+    printf("line :%p\n", line);
         return (-1); 
+    }
+        
     *buff = (char *)malloc(sizeof (char) * BUFFER_SIZE + 1);
     if (*buff == NULL)
     {
         free(*buff);
         return(-1);
     }
+    
+
 
     return (0);             
 }
@@ -72,6 +83,7 @@ int     get_next_line(int fd, char **line)
     static char         *str;
     int                 bytes;
 
+     buff = NULL;
     if ((ft_check_errors(fd, &buff, line)) == -1)
         return(-1);
     while (ft_ret_read(fd, buff, BUFFER_SIZE, &bytes) != 0) // tant que que je ne suis pas à EOF
@@ -97,10 +109,10 @@ int     get_next_line(int fd, char **line)
 
 int main (void)
 {
-    int fd;
+    int fd = -1;
     char *line;
     line = NULL;
-    fd = open("/Users/justine/Documents/dev/get_next_line/files/42_with_nl", O_RDONLY);
+
     
     while (get_next_line(fd, &line) > 0)
     {

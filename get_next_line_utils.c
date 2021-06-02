@@ -1,5 +1,16 @@
-#include "get_next_line.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get_next_line_utils.c                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jbadia <jbadia@student.42quebec.c>         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/05/21 09:12:15 by jbadia            #+#    #+#             */
+/*   Updated: 2021/05/21 14:53:47 by jbadia           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
+#include "get_next_line.h"
 
 char	*ft_substr(char const *s, unsigned int start, size_t len)
 {
@@ -78,11 +89,10 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	}
 	while (s2[j] != '\0')
 	{
-		join[i] = s2[j];
-		i++;
+		join[i + j] = s2[j];
 		j++;
 	}
-	join[i] = '\0';
+	join[i + j] = '\0';
 	free((void *)s1);
 	return (join);
 }
